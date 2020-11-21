@@ -26,10 +26,6 @@ ROOT_DIR/public を公開ディレクトリに指定して、XAMPP・MAMP を設
 php composer install
 ```
 
-composer.json・composer.lock が更新された場合も上記のコマンドを実行すると vendor 以下の各ファイルが更新されます。本番環境の各ライブラリを更新する場合は、composer.json・composer.lock をアップロード後に上記のコマンドを実行するだけです。  
-\* 上記以外の composer コマンドは使用しないでください
-\* 使用する際は自己責任でお願いします
-
 ### 設定ファイルの作成
 プロジェクトディレクトリ直下の .env.example ファイルをコピー（必ずコピー）して .env ファイルを作成します。.env ファイルを作成したらテキストエディター・IDE で開き、必要箇所を変更してください。
 
