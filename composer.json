@@ -1,0 +1,26 @@
+{
+    "autoload": {
+        "psr-4": {
+            "ShaChiPoCo\\": "apps/"
+        }
+    },
+    "require": {
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "phpmailer/phpmailer": "^6.0",
+        "guiguiboy/php-cli-progress-bar": "^0.0.4",
+        "kaleidpixel/image-optimizer": "^0.1.6",
+        "vlucas/phpdotenv": "^4.1",
+        "twig/twig": "^1.4",
+        "twig/extensions": "^1.5",
+        "paragonie/random_compat": "^2.0",
+        "zonuexe/simple-routing": "^0.5.3",
+        "filp/whoops": "^2.9",
+        "maximebf/debugbar": "^1.15",
+        "layershifter/tld-extract": "^2.0"
+    },
+    "require-dev": {
+        "apigen/apigen": "^4.1"
+    }
+}
