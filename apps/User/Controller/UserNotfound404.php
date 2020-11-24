@@ -1,6 +1,8 @@
 <?php
 namespace ShaChiPoCo\User\Controller;
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 use ShaChiPoCo\Core\Controller;
 
 class UserNotfound404 extends Controller {

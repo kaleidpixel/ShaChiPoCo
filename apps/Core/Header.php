@@ -8,6 +8,8 @@
  * @package  ShaChiPoCo
  */
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 // プロジェクト全体の内部エンコーディング
 define( 'APP_CHARSET', getenv( 'APP_CHARSET' ) );
 ini_set( 'default_charset', APP_CHARSET );

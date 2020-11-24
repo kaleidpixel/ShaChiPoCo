@@ -9,6 +9,8 @@
 
 namespace ShaChiPoCo\Core;
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 use \Teto\Routing\Router;
 
 /**

@@ -8,6 +8,8 @@
  * @package  ShaChiPoCo
  */
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 /**
  * 配列から最初の要素を取り出す
  *

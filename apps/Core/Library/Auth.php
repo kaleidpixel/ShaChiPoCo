@@ -1,6 +1,8 @@
 <?php
 namespace ShaChiPoCo\Core\Library;
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 use ShaChiPoCo\Core\Loader;
 use ShaChiPoCo\Core\Database;
 use ShaChiPoCo\Core\Model\Auth as M_Auth;

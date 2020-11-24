@@ -8,6 +8,8 @@
  * @package  ShaChiPoCo
  */
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 require_once COREPATH . DIRECTORY_SEPARATOR . 'Helper'. DIRECTORY_SEPARATOR . 'String.php';
 require_once COREPATH . DIRECTORY_SEPARATOR . 'Helper'. DIRECTORY_SEPARATOR . 'Token.php';
 

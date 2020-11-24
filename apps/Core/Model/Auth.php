@@ -10,6 +10,8 @@
 
 namespace ShaChiPoCo\Core\Model;
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 use ShaChiPoCo\Core\Model;
 
 class Auth extends Model {

@@ -7,6 +7,8 @@
  * @licenses MIT License.
  */
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 define( 'APPPATH', BASEPATH . DIRECTORY_SEPARATOR . 'apps' );
 define( 'COREPATH', APPPATH . DIRECTORY_SEPARATOR . 'Core' );
 define( 'USERCOREPATH', APPPATH . DIRECTORY_SEPARATOR . 'User' );

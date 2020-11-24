@@ -7,6 +7,8 @@
  * @licenses MIT License.
  */
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 use Dotenv\Exception\ValidationException;
 
 /**

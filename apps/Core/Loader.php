@@ -10,6 +10,8 @@
 
 namespace ShaChiPoCo\Core;
 
+realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
+
 use \Twig\Loader\FilesystemLoader as TwigFilesystemLoader;
 use \Twig\Environment as TwigEnvironment;
 use \Twig\Extension\EscaperExtension as TwigEscaperExtension;
