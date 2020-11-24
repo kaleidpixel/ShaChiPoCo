@@ -276,4 +276,34 @@ class Database {
 	public function query_error( $result = array() ) {
 		return isset( $result[ 'error' ] );
 	}
+
+	/**
+	 * MySQL の IN 関数の引数に入れる名前つきプレースホルダの生成とバインドするパラメーターを生成する
+	 *
+	 * @param array  $keys
+	 * @param string $name
+	 * @param array  $bind_params
+	 *
+	 * @return array
+	 */
+	public function create_where_in( $keys = [], $name = '', $bind_params = [] ) {
+		$count       = count( $keys );
+		$placeholder = [];
+
+		for ( $i = 0; $i < $count; $i++ ) {
+			if ( is_numeric( $keys[ $i ] ) ) {
+				$keys[ $i ] = (int) $keys[ $i ];
+			}
+
+			$placeholder[] = ":{$name}_{$i}";
+			$bind_params[] = [ ":{$name}_{$i}", $keys[ $i ], is_numeric( $keys[ $i ] ) ? \PDO::PARAM_INT : \PDO::PARAM_STR ];
+
+			unset( $keys[ $i ] );
+		}
+
+		return [
+			implode( ',', $placeholder ),
+			$bind_params,
+		];
+	}
 }
