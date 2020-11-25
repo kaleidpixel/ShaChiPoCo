@@ -261,7 +261,7 @@ class Database {
 	 * @param array $result
 	 */
 	public function query_debug_log( $result = array() ) {
-		if ( $this->query_error( $result ) ) {
+		if ( $this->is_query_error( $result ) ) {
 			ini_set( 'log_errors', 1 );
 			error_log( print_r( $result, true ) );
 			unset( $result );
@@ -275,7 +275,7 @@ class Database {
 	 *
 	 * @return bool
 	 */
-	public function query_error( $result = array() ) {
+	public function is_query_error( $result = array() ) {
 		return isset( $result[ 'error' ] );
 	}
 
