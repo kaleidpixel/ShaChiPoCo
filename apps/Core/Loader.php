@@ -19,6 +19,16 @@ use \Twig\Extension\OptimizerExtension as TwigOptimizerExtension;
 use \Twig\TwigFunction as TwigFunction;
 
 class Loader {
+	/**
+	 * @var bool|array
+	 */
+	private static $lib_classes = false;
+
+	/**
+	 * @var bool|array
+	 */
+	private static $helper_require = false;
+
 	public function __construct() {
 	}
 
@@ -57,7 +67,7 @@ class Loader {
 		$twig->addFunction( new TwigFunction( 'assets_url', 'assets_url' ) );
 		$twig->addFunction( new TwigFunction( 'dump', 'var_dump' ) );
 
-		echo $twig->render(  "{$with( strtolower( $view ) )}.twig", $vars );
+		echo $twig->render( "{$with( strtolower( $view ) )}.twig", $vars );
 	}
 
 	/**
@@ -67,25 +77,25 @@ class Loader {
 	 * @return mixed
 	 */
 	public function library( $name = '', $vars = [], $category = '' ) {
-		static $_classes = [];
-
 		$namespace = '';
-		$name   = ucfirst( $name );
-		$name   = preg_replace( '#[^a-zA-Z0-9_]+#', '', $name );
+		$name      = ucfirst( $name );
+		$name      = preg_replace( '#[^a-zA-Z0-9_]+#', '', $name );
 
 		if ( in_array( $category, [ 'model' ], true ) === false ) {
 			$category = 'library';
 		}
 
-		if ( isset( $_classes[ $category ][ $name ] ) ) {
-			return $_classes[ $category ][ $name ];
+		$category = ucfirst( $category );
+
+		if ( isset( self::$lib_classes[ $category ][ $name ] ) ) {
+			return self::$lib_classes[ $category ][ $name ];
 		}
 
 		foreach ( [ USERCOREPATH, COREPATH ] as $k => $path ) {
 			$file = $path . DIRECTORY_SEPARATOR . $category . DIRECTORY_SEPARATOR . $name . '.php';
 
 			if ( file_exists( $file ) ) {
-				$namespace = 'ShaChiPoCo\\' . str_replace( APPPATH . DIRECTORY_SEPARATOR, '', $path ) . '\\' . $category;
+				$namespace = 'CwSimplePhpFramework\\' . str_replace( APPPATH . DIRECTORY_SEPARATOR, '', $path ) . '\\' . $category;
 
 				require_once $file;
 				break;
@@ -94,13 +104,13 @@ class Loader {
 
 		if ( empty( $namespace ) ) {
 			http_response_code( 500 );
-			exit( 'No ' . $name . ' file.' );
+			exit( 'No ' . $category . ':' .$name . ' file.' );
 		}
 
-		$class                          = $namespace . '\\' . $name;
-		$_classes[ $category ][ $name ] = empty( $vars ) ? new $class : new $class( $vars );
+		$class                                   = $namespace . '\\' . $name;
+		self::$lib_classes[ $category ][ $name ] = empty( $vars ) ? new $class : new $class( $vars );
 
-		return $_classes[ $category ][ $name ];
+		return self::$lib_classes[ $category ][ $name ];
 	}
 
 	/**
@@ -116,10 +126,16 @@ class Loader {
 			$helper[ $i ] = ucfirst( $helper[ $i ] );
 			$helper[ $i ] = preg_replace( '#[^a-zA-Z0-9_]+#', '', $helper[ $i ] );
 
+			if ( isset( self::$helper_require[ $helper[ $i ] ] ) ) {
+				continue;
+			}
+
 			foreach ( [ USERCOREPATH, COREPATH ] as $k => $path ) {
 				$file = $path . DIRECTORY_SEPARATOR . 'Helper' . DIRECTORY_SEPARATOR . $helper[ $i ] . '.php';
 
 				if ( file_exists( $file ) ) {
+					self::$helper_require[ $helper[ $i ] ] = true;
+
 					require_once $file;
 					break;
 				}

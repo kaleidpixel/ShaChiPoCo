@@ -9,7 +9,7 @@
 
 realpath( $_SERVER[ 'SCRIPT_FILENAME' ] ) !== realpath( __FILE__ ) OR exit( 'No direct script access allowed' );
 
-use Dotenv\Exception\ValidationException;
+use \Dotenv\Exception\ValidationException;
 
 /**
  * エラーログの制御.
@@ -34,7 +34,7 @@ if ( ! is_dir( LOGPATH ) ) {
  * @see https://packagist.org/packages/vlucas/phpdotenv
  */
 try {
-	$dotenv = \Dotenv\dotenv::createImmutable( BASEPATH );
+	$dotenv = \Dotenv\Dotenv::createImmutable( BASEPATH );
 	$dotenv->load();
 	$dotenv->required( [
 		'APP_ENV',

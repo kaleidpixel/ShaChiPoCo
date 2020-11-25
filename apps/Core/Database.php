@@ -25,7 +25,7 @@ class Database {
 	 *
 	 * @var bool|object|resource
 	 */
-	private $connect = false;
+	private static $connect = false;
 
 	/**
 	 * Class constructor.
@@ -46,15 +46,15 @@ class Database {
 	 * @param $user
 	 * @param $pass
 	 *
-	 * @return object|\PDO|resource
+	 * @return void
 	 */
 	protected function db_connect( $dns, $user, $pass ) {
-		if ( $this->connect !== false ) {
-			return $this->connect;
+		if ( is_object( self::$connect ) || is_resource( self::$connect ) ) {
+			return;
 		}
 
 		try {
-			$this->connect = new \PDO( $dns, $user, $pass, [
+			self::$connect = new \PDO( $dns, $user, $pass, [
 				\PDO::ATTR_ERRMODE                  => \PDO::ERRMODE_EXCEPTION,
 				\PDO::ATTR_DEFAULT_FETCH_MODE       => \PDO::FETCH_ASSOC,
 				\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY => true,
@@ -65,8 +65,6 @@ class Database {
 		} catch ( \PDOException $e ) {
 			error_log( print_r( $e, true ) );
 		}
-
-		return $this->connect;
 	}
 
 	/**
@@ -77,7 +75,7 @@ class Database {
 	 * @return bool|\PDOStatement
 	 */
 	protected function query_execute( $query, $params ) {
-		$stmt = $this->connect->prepare( $query );
+		$stmt = self::$connect->prepare( $query );
 
 		if ( ! empty( $params ) && is_array( $params ) ) {
 			foreach ( $params as $v ) {
@@ -173,7 +171,7 @@ class Database {
 
 			if ( $insert_id === true ) {
 				$result = array_merge( $result, [
-					'insert_id' => $this->connect->lastInsertId( 'id' ),
+					'insert_id' => self::$connect->lastInsertId( 'id' ),
 				] );
 			}
 		} catch ( \PDOException $e ) {
@@ -200,21 +198,21 @@ class Database {
 	 */
 	public function query_insert( $query = '', $bind_params = [], $transaction = false ) {
 		if ( $transaction === true ) {
-			$this->connect->beginTransaction();
+			self::$connect->beginTransaction();
 		}
 
 		try {
 			$stmt   = $this->query_execute( $query, $bind_params );
 			$result = array(
-				'db_insert_id' => $this->connect->lastInsertId( 'id' ),
+				'db_insert_id' => self::$connect->lastInsertId( 'id' ),
 			);
 
 			if ( $transaction === true ) {
-				$this->connect->commit();
+				self::$connect->commit();
 			}
 		} catch ( \PDOException $e ) {
 			if ( $transaction === true ) {
-				$this->connect->rollback();
+				self::$connect->rollback();
 			}
 
 			$result = array(
