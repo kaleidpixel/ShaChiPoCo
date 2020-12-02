@@ -158,7 +158,7 @@ class Database {
 			} else {
 				$tmp = $stmt->fetch();
 
-				if ( $mysqlnd === false ) {
+				if ( $mysqlnd === false && $tmp !== false ) {
 					foreach ( $tmp as $k => $v ) {
 						$result[ $k ] = ( $row[ $k ] === \PDO::PARAM_INT ) ? (int) $v : (string) $v;
 
